@@ -1,0 +1,19 @@
+#!/usr/bin/python
+
+
+import sys
+import random
+
+tablero = [ [_,_,_,_,_,_,], [_,_,_,_,_,_,] ,[_,_,_,_,_,_,] ... ]
+
+def mostrar(t)
+	tc = range(9)
+	tt = range(6)
+
+	for i in tc
+		for j in tt
+			sys.stdout.write('|')
+			sys.stdout.write t[i][j]
+			
+			sys.stdout.write('|') 
+			print 

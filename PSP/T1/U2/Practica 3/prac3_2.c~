@@ -1,0 +1,10 @@
+/*2. Implementa   una   comunicación   bidireccional   padre­hijo.   Ambos   estarán   en   comunicación  
+(pidiendo   el   mensaje   de   comunicación)   hasta   que   el   usuario   introduzca   un   0(cero)   ya  
+sea en el padre o en el hijo. */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
+
