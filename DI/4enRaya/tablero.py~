@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#MANGELPERIS
 
 import sys
 import random
@@ -23,6 +24,25 @@ def mostrar(tablero):
 
 mostrar(tablero)
 
+def tiraUSER():
+	for i in filas:
+			for j in columnas:
+				if str(j) != '9':
+					if str(i) == '5':
+						tablero[5][col] = USER
+						sys.stdout.write('|')
+						sys.stdout.write(tablero[i][j])
+					else:
+						sys.stdout.write('|')
+						sys.stdout.write(tablero[i][j])
+				else:	
+					sys.stdout.write('|'+str(i)+"\n")
+			if str(i) == '5':
+				sys.stdout.write(' 0 1 2 3 4 5 6 7 8'+"\n\n")
+
+#def tiraIA():
+
+
 ficha = ''
 IA = ''
 USER =''
@@ -43,18 +63,48 @@ while ficha <>'#' and ficha <>'@':
 
 
 #
-col = random.randint(0,8)
+mov = 1
+print('\n***** TURNO:: '+str(mov)+' ****')
 
+# TURNO 1
 if turno =='#':
+	#Mueve USUARIO
 	#Escoger columna
-else:
 	
+	col = input("\nEscoge columna (0-8): ")
+	print("\n.....Mueven # .....")
 	for i in filas:
 		for j in columnas:
 			if str(j) != '9':
-				if tablero[i][j] == col:
-					sys.stdout.write('@')
+				if str(i) == '5':
 					
+					tablero[5][col] = USER
+					sys.stdout.write('|')
+					sys.stdout.write(tablero[i][j])
+				else:
+					sys.stdout.write('|')
+					sys.stdout.write(tablero[i][j])
+			else:	
+				sys.stdout.write('|'+str(i)+"\n")
+		if str(i) == '5':
+			sys.stdout.write(' 0 1 2 3 4 5 6 7 8'+"\n\n")
+	#MUEVE MAQUINA
+	print("\n.....Mueven @ .....")
+	col = random.randint(0,8)
+	for i in filas:
+		for j in columnas:
+			if str(j) != '9':
+				if str(i) == '5':
+					if tablero[5][col] == '#':
+						
+						col = random.randint(0,8)
+						tablero[5][col] = IA
+						sys.stdout.write('|')
+						sys.stdout.write(tablero[i][j]) 
+					else:
+						tablero[5][col] = IA
+						sys.stdout.write('|')
+						sys.stdout.write(tablero[i][j]) 
 				else:
 					sys.stdout.write('|')
 					sys.stdout.write(tablero[i][j])
@@ -62,8 +112,52 @@ else:
 				sys.stdout.write('|'+str(i)+"\n")
 		if str(i) == '5':
 			sys.stdout.write(' 0 1 2 3 4 5 6 7 8'+"\n\n")	
+else:
+	#MUEVE MAQUINA
+	print("\n.....Mueven # .....")
+	col = random.randint(0,8)
+	for i in filas:
+		for j in columnas:
+			if str(j) != '9':
+				if str(i) == '5':
+					tablero[5][col] = IA
+					sys.stdout.write('|')
+					sys.stdout.write(tablero[i][j])
+				else:
+					sys.stdout.write('|')
+					sys.stdout.write(tablero[i][j])
+			else:	
+				sys.stdout.write('|'+str(i)+"\n")
+		if str(i) == '5':
+			sys.stdout.write(' 0 1 2 3 4 5 6 7 8'+"\n\n")	
+	#MUEVE USUARIO
+	print("\n.....Mueven @ .....")
+	col = input("\nEscoge columna (0-8): ")
+	for i in filas:
+		for j in columnas:
+			if str(j) != '9':
+				if str(i) == '5':
+					if tablero[5][col] != '_':
+										
+						tablero[5][col] = USER
+						sys.stdout.write('|')
+						sys.stdout.write(tablero[i][j]) 
+					else:
+						tablero[5][col] = USER
+						sys.stdout.write('|')
+						sys.stdout.write(tablero[i][j]) 
+				else:
+					
+					sys.stdout.write('|')
+					sys.stdout.write(tablero[i][j])
+			else:	
+				sys.stdout.write('|'+str(i)+"\n")
+		if str(i) == '5':
+			sys.stdout.write(' 0 1 2 3 4 5 6 7 8'+"\n\n")	
+print('\n* FIN TURNO:: '+str(mov)+' *\n')
+#Fin TURNO 1
+mov += 1
 
-	
 
 
 
