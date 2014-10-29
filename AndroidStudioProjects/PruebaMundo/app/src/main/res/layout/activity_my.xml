@@ -21,4 +21,6 @@
         android:text="Boton 2"
         android:id="@+id/button2"
         android:layout_gravity="center_horizontal" />
+
+
 </LinearLayout>

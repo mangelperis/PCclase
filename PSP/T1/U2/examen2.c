@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
+
+int main ()
+{
+int fd[2];
+char mensaje[80]="He aprobado PSP papá\0";
+char buffer[strlen(mensaje)];
+pid_t pid;
+pipe(fd);
+
+pid=fork();
+
+switch(pid)
+{
+	case -1:
+	printf("Error");
+	break;
+	return 0;
+	case 0:
+		//Hijo
+	close (fd[0]);
+	write (fd[1],mensaje,strlen(mensaje));
+	printf("El hijo escribe en el pipe... ");
+	break;
+
+	default:
+		//Padre
+	wait(NULL);	
+	close (fd[1]);
+	read (fd[0], buffer, sizeof(buffer));
+	printf("\nEl padre lee del pipe... \n   Mensaje leido: %s \n",buffer);
+	
+	break;
+
+}
+
+
+return 0;
+}
+
+
+

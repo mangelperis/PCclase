@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GridBotones</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="boton1">Button1</string>
+    <string name="boton2">Button2</string>
+    <string name="boton3">Button3</string>
+    <string name="boton4">Button4</string>
+    <string name="boton5">Button5</string>
+
+</resources>
