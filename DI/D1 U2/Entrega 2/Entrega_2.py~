@@ -1,0 +1,341 @@
+#! /usr/bin/env python
+# -*- coding: UTF-8 -*-
+
+
+# Importamos el módulo pygtk y le indicamos que use la versión 2
+import pygtk
+pygtk.require("2.0")
+
+# Luego importamos el módulo de gtk y el gtk.glade, este ultimo que nos sirve
+# para poder llamar/utilizar al archivo de glade
+import gtk
+import gtk.glade
+import gtk.gdk
+import sqlite3
+
+bbdd = 'tEjercicio'
+
+# Creamos la clase de la ventana principal del programa
+class MainWin:
+	#conex = sqlite3.connect(bbdd)
+	#c = conex.cursor()
+
+	def __init__(self):
+		# Indicamos el archivo SQLite
+		try:
+		    self.con = sqlite3.connect(bbdd)
+		    self.cursor = self.con.cursor()
+		    
+		    
+		except:
+		    self.error("La BBDD no esta disponible.\n Confirma que existe el archivo 'db'.")
+		
+		# Le decimos a nuestro programa que archivo de glade usar (puede tener
+		# un nombre distinto del script). Si no esta en el mismo directorio del
+		# script habría que indicarle la ruta completa en donde se encuentra
+		self.widgets  = gtk.glade.XML("Entrega_2.glade")
+
+		
+		window1 = self.widgets.get_widget("window1")
+		#TITULO DE LA VENTANA
+		window1.set_title("Entrega 2 - M.Angel Peris")
+		
+		#Color de fondo
+		window1.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#F8E0F7'))
+		
+		# Creamos un pequeño diccionario que contiene las señales definidas en
+		# glade y su respectivo método (o llamada)
+		signals = {"on_button1_clicked" : self.on_button1_clicked,
+			"gtk_main_quit" : gtk.main_quit,
+			"on_button2_clicked" : self.on_button2_clicked,
+			"on_boton_grabar" : self.on_button_clicked,
+			"on_buttonRellenar_clicked" :
+self.on_buttonRellenar_clicked,
+			"on_buttonLimpiar_clicked" : self.on_buttonLimpiar_clicked
+					
+			 }
+
+		# Luego se auto-conectan las señales.
+		self.widgets.signal_autoconnect(signals)
+
+	# Se definen los métodos, en este caso señales como "destroy" ya fueron
+	# definidas en el .glade, así solo se necesita definir "on_button1_clicked"
+	def on_button1_clicked(self, widget):
+		"Muestra la ventana con los datos"
+		ventana = gtk.Dialog()
+		ok_button = ventana.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
+		#BOTON "GRABAR" 
+		ok_button.connect("clicked", self.on_button_clicked)
+
+		cancelar_button = ventana.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
+		ok_button.grab_default()
+		ventana.set_title("Confirma")
+		label = gtk.Label("<b>¿Guardar Datos?</b>\n")
+		label.set_property("use-markup", True)
+		entry1 = gtk.Label("Usuario: "+self.widgets.get_widget("entry1").get_text())
+		entry2 = gtk.Label("Contraseña: "+self.widgets.get_widget("entry2").get_text())
+		entry3 = gtk.Label("E-mail: "+self.widgets.get_widget("entry3").get_text())
+		entry4 = gtk.Label("Nombres: "+self.widgets.get_widget("entry4").get_text())
+		entry5 = gtk.Label("Apellidos: "+self.widgets.get_widget("entry5").get_text())
+
+		#Obtenemos datos del textview
+		textview1 = self.widgets.get_widget("textview1")
+		buffer = textview1.get_buffer()
+		textview = gtk.Label("Direccion: "+buffer.get_text(buffer.get_start_iter(),buffer.get_end_iter())+"\n\n")
+		
+		ventana.vbox.pack_start(label, True, True, 0)
+		ventana.vbox.pack_start(entry1, True, True, 0)
+		ventana.vbox.pack_start(entry2, True, True, 0)
+		ventana.vbox.pack_start(entry3, True, True, 0)
+		ventana.vbox.pack_start(entry4, True, True, 0)
+		ventana.vbox.pack_start(entry5, True, True, 0)
+		ventana.vbox.pack_start(textview, True, True, 0)
+
+		# Con show_all() mostramos el contenido del cuadro de dialogo (en este
+		# caso solo tiene la etiqueta) si no se hace el dialogo aparece vacio
+		ventana.show_all()
+		# El run y destroy hace que la ventana se cierre al apretar el boton
+		ventana.run()
+		ventana.destroy()
+		
+				
+	def on_buttonLimpiar_clicked(self,widget):	
+		en1=self.widgets.get_widget("entry1").set_text("")
+		en2= self.widgets.get_widget("entry2").set_text("")
+		en3=self.widgets.get_widget("entry3").set_text("")
+		en4=self.widgets.get_widget("entry4").set_text("")
+		en5=self.widgets.get_widget("entry5").set_text("")
+		en6=self.widgets.get_widget("textview1")
+		bff =en6.get_buffer()
+		bff.set_text("")
+		
+		
+	def on_button2_clicked(self, widget):
+		'''Este trozo abria el elemento "dialog1" contenido en el .glade, y despues tenia un botón para rellenar, el problema es que la 
+		ventana que emergía con el resultado del select, no se podía cerrar bien así que decidio abrir directamente esta ventana, sin pasar 			por la de "dialog1"
+
+		ventana2 = self.widgets.get_widget("dialog1")	
+		cerrar_button = self.widgets.get_widget("buttonCerrar")
+		cerrar_button.connect("clicked", self.on_buttonCerrar_clicked)
+				
+		ventana2.show_all()
+		ventana2.run()
+		ventana2.hide()
+		'''
+
+		#Consultas columna por columna a la base de datos
+        
+		self.cursor.execute('select usuario from usuarios')
+		usuarios=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    usuarios=usuarios+''.join(row)+"\n"
+
+		self.cursor.execute('select password from usuarios')
+		password=""
+		rows =self.cursor.fetchall()
+		for row in rows:
+		    password=password+''.join(row)+"\n"
+		       
+		self.cursor.execute('select email from usuarios')
+		mail=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    mail=mail+''.join(row)+"\n"
+		             
+		self.cursor.execute('select nombre from usuarios')
+		nombre=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    nombre=nombre+''.join(row)+"\n"
+		       
+		self.cursor.execute('select apellido from usuarios')
+		apellido=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    apellido=apellido+''.join(row)+"\n"
+		
+		self.cursor.execute('select direccion from usuarios')
+		direccion=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    direccion=direccion+''.join(row)+"\n"
+		
+		ventana3 = gtk.Window(gtk.WINDOW_TOPLEVEL
+	)
+		ventana3.set_title(":::SQL Result:::")
+		ventana3.set_position(gtk.WIN_POS_CENTER)
+		ventana3.set_destroy_with_parent(1)
+		        
+		#Creacion de las label
+		labelUsuarios = gtk.Label("<b>Usuarios</b>\n\n"+usuarios)
+		labelUsuarios.set_property("use-markup", True)
+		
+		labelPassword = gtk.Label("<b>Contraseña</b>\n\n"+password)
+		labelPassword.set_property("use-markup", True)
+		
+		labelmail = gtk.Label("<b>Mail</b>\n\n"+mail)
+		labelmail.set_property("use-markup", True)
+		
+		labelNombre = gtk.Label("<b>Nombre</b>\n\n"+nombre)
+		labelNombre.set_property("use-markup", True)
+		        
+		labelApellido = gtk.Label("<b>Apellido</b>\n\n"+apellido)
+		labelApellido.set_property("use-markup", True)
+	  
+		labelDireccion = gtk.Label("<b>Direccion</b>\n\n"+direccion)
+        	labelDireccion.set_property("use-markup", True)
+		
+		
+		
+		#Hbox para que aparezcan una al lado de la otra con borde 20
+		hbox = gtk.HBox(False, 20)
+
+		hbox.pack_start(labelUsuarios, False, False, 0)
+		hbox.pack_start(labelPassword, False, False, 0)
+		hbox.pack_start(labelmail, False, False, 0)
+		hbox.pack_start(labelNombre, False, False, 0)
+		hbox.pack_start(labelApellido, False, False, 0)
+		hbox.pack_start(labelDireccion, False, False, 0)
+		
+		ventana3.set_border_width(15)
+		ventana3.add(hbox)
+		ventana3.show_all()
+
+	#BOTON RELLENAR de dialog1 ((SIN USO ))	
+	''' Esta funcion no se usa , pero la dejo por si en el futuro la puedo aprovechar...'''
+	def on_buttonRellenar_clicked(self,widget):
+		#Consultas columna por columna a la base de datos
+        
+		self.cursor.execute('select usuario from usuarios')
+		usuarios=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    usuarios=usuarios+''.join(row)+"\n"
+
+		self.cursor.execute('select password from usuarios')
+		password=""
+		rows =self.cursor.fetchall()
+		for row in rows:
+		    password=password+''.join(row)+"\n"
+		       
+		self.cursor.execute('select email from usuarios')
+		mail=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    mail=mail+''.join(row)+"\n"
+		             
+		self.cursor.execute('select nombre from usuarios')
+		nombre=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    nombre=nombre+''.join(row)+"\n"
+		       
+		self.cursor.execute('select apellido from usuarios')
+		apellido=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    apellido=apellido+''.join(row)+"\n"
+		
+		self.cursor.execute('select direccion from usuarios')
+		direccion=""
+		rows = self.cursor.fetchall()
+		for row in rows:
+		    direccion=direccion+''.join(row)+"\n"
+		
+		ventana3 = gtk.Window(gtk.WINDOW_TOPLEVEL
+	)
+		ventana3.set_title(":::SQL Result:::")
+		ventana3.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+		ventana3.set_destroy_with_parent(1)
+		        
+		#Creacion de las label
+		labelUsuarios = gtk.Label("<b>Usuarios</b>\n\n"+usuarios)
+		labelUsuarios.set_property("use-markup", True)
+		
+		labelPassword = gtk.Label("<b>Contraseña</b>\n\n"+password)
+		labelPassword.set_property("use-markup", True)
+		
+		labelmail = gtk.Label("<b>Mail</b>\n\n"+mail)
+		labelmail.set_property("use-markup", True)
+		
+		labelNombre = gtk.Label("<b>Nombre</b>\n\n"+nombre)
+		labelNombre.set_property("use-markup", True)
+		        
+		labelApellido = gtk.Label("<b>Apellido</b>\n\n"+apellido)
+		labelApellido.set_property("use-markup", True)
+	  
+		labelDireccion = gtk.Label("Direccion\n\n"+direccion)
+        	#labelDireccion.set_property("use-markup", True)
+		
+		
+		
+		#Hbox para que aparezcan una al lado de la otra con borde 20
+		hbox = gtk.HBox(False, 20)
+
+		hbox.pack_start(labelUsuarios, False, False, 0)
+		hbox.pack_start(labelPassword, False, False, 0)
+		hbox.pack_start(labelmail, False, False, 0)
+		hbox.pack_start(labelNombre, False, False, 0)
+		hbox.pack_start(labelApellido, False, False, 0)
+		hbox.pack_start(labelDireccion, False, False, 0)
+		
+		ventana3.set_border_width(15)
+		ventana3.add(hbox)
+		#cancelar_button1 = ventana3.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
+		ventana3.show_all()
+		
+			
+		
+		
+		
+		
+	def on_buttonCerrar_clicked(self,widget):
+	 	"NADA AQUI"
+	#FUNCION GRABAR
+	def on_button_clicked(self, widget):
+		entry1 = self.widgets.get_widget("entry1").get_text()
+		entry2 = self.widgets.get_widget("entry2").get_text()
+		entry3 = self.widgets.get_widget("entry3").get_text()
+		entry4 = self.widgets.get_widget("entry4").get_text()
+		entry5 = self.widgets.get_widget("entry5").get_text()
+		#TODO sacar el texto del textview para el insert...
+		textview1 = self.widgets.get_widget("textview1")
+		buffer = textview1.get_buffer()
+		textview = buffer.get_text(buffer.get_start_iter(),buffer.get_end_iter())
+		
+		registro =(entry1, entry2, entry3, entry4, entry5, textview)
+		
+		try:	
+			
+			sql = "INSERT INTO usuarios (usuario,password,email,nombre,apellido,direccion) VALUES ('%s','%s','%s','%s','%s','%s')" % (entry1, entry2, entry3, entry4, entry5, textview)
+			self.cursor.execute(sql)
+			self.con.commit()
+			
+			print("\n:::>  Registro introducido correctamente")
+
+			#Pop-UP de confirmacion
+			ventana = gtk.Dialog()
+			ok_button = ventana.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
+			ok_button.grab_default()
+			ventana.set_title("Info")
+			label = gtk.Label("\nAñadido registro\n <b><u>correctamente</u></b>\n")
+			label.set_property("use-markup", True)
+			ventana.vbox.pack_start(label, True, True, 0)
+			ventana.show_all()
+			ventana.run()
+			ventana.destroy()
+				
+		except sqlite3.Error , e:
+			mensaje = "ERROR al introducir el registro"
+			print("\n:::>  "+mensaje)
+			cursor.rollback()		
+		
+		
+
+	
+
+# Para terminar iniciamos el programa
+if __name__ == "__main__":
+	MainWin()
+	gtk.main()

@@ -1,0 +1,138 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
+
+# Importamos el módulo pygtk y le indicamos que use la versión 2
+import pygtk
+pygtk.require("2.0")
+
+# Luego importamos el módulo de gtk y el gtk.glade, este ultimo que nos sirve
+# para poder llamar/utilizar al archivo de glade
+import gtk
+import gtk.glade
+import gtk.gdk
+
+
+# Creamos la clase de la ventana principal del programa
+class MainWin:
+	def __init__(self):
+
+		self.widgets  = gtk.glade.XML("P3_MAngelPeris.glade")
+		
+		window1 = self.widgets.get_widget("window1")
+		#TITULO DE LA VENTANA
+		window1.set_title("Entrega 3 - M.Angel Peris - CALCULADORA")
+		
+		#Color de fondo
+		window1.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#A0B8BC'))
+		# Creamos un pequeño diccionario que contiene las señales definidas en
+		# glade y su respectivo método (o llamada)
+		signals = {"on_buttonCalcular_clicked" : self.on_buttonCalcular_clicked,
+			"gtk_main_quit" : gtk.main_quit,
+			"on_buttonLimpiar_clicked" : self.on_buttonLimpiar_clicked,
+			"on_Acerca_de_activate" : self.on_Acerca_de_activate,
+			"on_Salir_activate" : gtk.main_quit
+			 }
+		
+
+		
+		# Luego se auto-conectan las señales.
+		self.widgets.signal_autoconnect(signals)
+		
+		window1.show_all()
+
+
+	def on_buttonCalcular_clicked(self, widget):	
+		try:		
+			precio = self.widgets.get_widget("entryPrecio").get_text()
+			porcentage = self.widgets.get_widget("combobox1").get_active_text()
+		
+			descuento = (float(precio) * float(porcentage))/100
+			final = float(precio) - float(descuento)
+		
+			lbl1=self.widgets.get_widget("labelPrecio")
+			lbl1.set_text("<b>"+str(final)+"   €</b>")
+			lbl1.set_property("use-markup", True)
+			
+			lbl2=self.widgets.get_widget("labelDescuento")
+			lbl2.set_text("<b>"+str(descuento)+"   €</b>")
+			lbl2.set_property("use-markup", True)
+			#print("\nBoton Calcular\n")
+		except:
+			#Si hay una entrada en el entry
+			if (self.widgets.get_widget("entryPrecio").get_text() != ""):			 	
+				#Si no hay un descuento seleccionado
+				if(self.widgets.get_widget("combobox1").get_active() == -1 ):
+					ventana = gtk.Dialog()
+					ventana.set_title("Falta el descuento")
+					ventana.set_position(gtk.WIN_POS_CENTER)
+					ventana.set_default_size(300, 75)
+					label = gtk.Label("El campo <b>'<i>descuento</i>'</b>  esta en blanco")
+					label.set_property("use-markup", True)
+					ventana.vbox.pack_start(label, True, True, 0)					
+					ventana.show_all()		
+					ventana.run()
+					ventana.destroy()
+				#Si en el entry hay algo que no sea un numero
+				else:
+					ventana = gtk.Dialog()
+					ventana.set_title("ERROR en la entrada de datos")
+					ventana.set_position(gtk.WIN_POS_CENTER)
+					ventana.set_default_size(310, 75)
+					label = gtk.Label("'<b><i> "+self.widgets.get_widget("entryPrecio").get_text()+" </i></b>'  --> no es un numero valido")
+					label.set_property("use-markup", True)					
+					ventana.vbox.pack_start(label, True, True, 0)			
+					ventana.show_all()		
+					ventana.run()
+					ventana.destroy()				
+			
+			else:	
+				ventana = gtk.Dialog()
+				ventana.set_title("Falta el numero")
+				ventana.set_position(gtk.WIN_POS_CENTER)
+				ventana.set_default_size(300, 75)
+				label = gtk.Label("El  <b>'<i>entry</i> '</b>  esta en blanco")
+				label.set_property("use-markup", True)
+				ventana.vbox.pack_start(label, True, True, 0)			
+				ventana.show_all()		
+				ventana.run()
+				ventana.destroy()
+				
+		
+		
+	def on_buttonLimpiar_clicked(self, widget):
+		self.widgets.get_widget("entryPrecio").set_text("")		
+		lbld=self.widgets.get_widget("labelDescuento")
+		lbld.set_text("<b>€</b>")
+		lbld.set_property("use-markup", True)
+		self.widgets.get_widget("combobox1").set_active(-1)
+		lblp=self.widgets.get_widget("labelPrecio")
+		lblp.set_text("<b>€</b>")
+		lblp.set_property("use-markup", True)
+		
+		#print("\nBoton Limpiar\n")
+
+	def on_Acerca_de_activate(self, widget):
+		"Muestra la ventana Acerca de"
+		about = gtk.AboutDialog()
+		about.set_name("Calculadora de Descuentos")
+		about.set_version("1.0")
+		about.set_comments("Muestra el precio final y el descuento en €")
+		about.set_copyright("IES Serpis (Valencia)")
+		
+		def openHomePage(widget, url, url2):  # Para abrir el sitio
+		    import webbrowser
+		    webbrowser.open_new(url)
+		
+		gtk.about_dialog_set_url_hook(openHomePage, "http://www.institutoserpis.org/")
+		about.set_website("http://www.institutoserpis.org/")
+		about.set_authors(["Miguel Angel Peris Iborra (MAPI)"])
+		about.run()
+		about.destroy()
+	
+
+
+# Para terminar iniciamos el programa
+if __name__ == "__main__":
+	MainWin()
+	gtk.main()
