@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="2" >
+
+    <dataSet config="main" >
+        <source path="/home/mati/PMM/EXAMEN/07_ui_one/res" >
+            <file
+                name="main"
+                path="/home/mati/PMM/EXAMEN/07_ui_one/res/layout/main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                name="ic_launcher"
+                path="/home/mati/PMM/EXAMEN/07_ui_one/res/drawable-hdpi/ic_launcher.png"
+                qualifiers="hdpi-v4"
+                type="drawable" />
+            <file
+                path="/home/mati/PMM/EXAMEN/07_ui_one/res/values/strings.xml"
+                qualifiers="" >
+                <string name="app_name" >07_ui_one
+                </string>
+                <string name="hello" >Hello World, MainActivity!
+                </string>
+            </file>
+            <file
+                name="ic_launcher"
+                path="/home/mati/PMM/EXAMEN/07_ui_one/res/drawable-ldpi/ic_launcher.png"
+                qualifiers="ldpi-v4"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/home/mati/PMM/EXAMEN/07_ui_one/res/drawable-mdpi/ic_launcher.png"
+                qualifiers="mdpi-v4"
+                type="drawable" />
+        </source>
+        <source path="/home/mati/PMM/EXAMEN/07_ui_one/build/generated/res/rs/debug" />
+        <source path="/home/mati/PMM/EXAMEN/07_ui_one/build/generated/res/generated/debug" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/home/mati/PMM/EXAMEN/07_ui_one/build-types/debug/res" />
+    </dataSet>
+
+</merger>

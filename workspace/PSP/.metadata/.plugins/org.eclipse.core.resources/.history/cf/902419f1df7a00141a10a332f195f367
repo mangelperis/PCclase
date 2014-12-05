@@ -1,0 +1,65 @@
+package dos;
+
+import java.applet.Applet;
+//Librerias importo
+import java.awt.*;
+
+
+@SuppressWarnings("serial")
+public class HiloApplet extends Applet implements Runnable {
+	
+	
+	 int c1,c2;
+	 int valor,valor2;
+	 private Font fuente; 
+	 
+	//método init
+		public void init(){
+			fuente=new Font("Verdana",Font.BOLD,26);
+
+		}
+	
+	HiloApplet (int c1,int c2){
+		this.c1=c1;
+		this.c2=c2;
+		valor = c1;
+		valor2 = c2;
+		
+	}
+	
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+		while (true){
+					
+			try {
+				Thread.sleep(1000);
+				valor += 1;
+				valor2 += 2;
+			}catch (InterruptedException e){}
+			repaint();
+			
+		}
+		
+	}
+	
+	public void paint(Graphics g){
+		g.setFont(fuente);
+		g.drawString("H1:: "+Long.toString((long)valor), 40, 100); //escribe contador
+		g.drawString("H2:: "+Long.toString((long)valor2), 40, 170);
+		
+	}	
+	
+	public int getContador1 (){
+		return valor;
+	}
+	
+	public int getContador2 (){
+		return valor2;
+	}
+		
+		
+
+}

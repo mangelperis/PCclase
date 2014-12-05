@@ -130,7 +130,7 @@ class MainWin:
 		
 		try:	
 			
-			sql = "INSERT INTO usuarios (usuario,password,email,nombre,apellido,direccion) VALUES ('%s','%s','%s','%s','%s','%s')" % (entry1, entry2, entry3, entry4, entry5, textview)
+			sql = "INSERT INTO usuarios (usuario,password,email,nombre,apellido,direccion) VALUES ('%s','%s','%s','%s','%s','%s')" %(entry1, entry2, entry3, entry4, entry5, textview)
 			self.cursor.execute(sql)
 			self.con.commit()
 			

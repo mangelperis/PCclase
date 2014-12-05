@@ -1,0 +1,15 @@
+public class ThreadTic extends Thread {
+//Metodo run
+	public void run(){
+		while (true){
+
+		System.out.print (" TIC ");
+		try{		
+			sleep(10);
+
+		}catch (InterruptedException e){}
+		}
+	}
+
+	
+}//fin hilo

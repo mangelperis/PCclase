@@ -1,0 +1,43 @@
+package dos;
+
+public class UsarApplet extends Thread{
+	public static void main (String[] args){
+		Hilos2 p1=new Hilos2(0,1); //creo objeto hilo
+		Hilos2 p2=new Hilos2(5,8);
+		Hilos2 p3=new Hilos2(10,3);
+		
+		new Thread(p1).start(); //inicio ejecución
+		new Thread(p2).start(); //inicio ejecución
+		new Thread(p3).start(); //inicio ejecución
+		
+		//PARA QUE NO SE REPITA AL PRINCIPIO CON EL MISMO VALOR ESPERAR ANTES 1 SEG
+		try{
+			Thread.sleep(1000);
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+		
+		//STOP DEPRECATED 
+		p2.stop();
+		
+		while (true){
+			System.out.println("Hilo 1 ::> Contador1 ("+p1.getContador1()+") | Contador2 ("+p1.getContador2()+")");
+			System.out.println("Hilo 2 ::> Contador1 ("+p2.getContador1()+") | Contador2 ("+p2.getContador2()+")");
+			System.out.println("Hilo 3 ::> Contador1 ("+p3.getContador1()+") | Contador2 ("+p3.getContador2()+")");
+			System.out.println();
+			
+			try{
+			Thread.sleep(1000);
+			
+			}catch(InterruptedException e){
+				e.printStackTrace();
+			}
+			
+			
+		}
+		
+		
+		}
+
+
+}

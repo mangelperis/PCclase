@@ -1,0 +1,15 @@
+public class ThreadTac extends Thread {
+//Metodo run
+	public void run(){
+		while (true){
+
+		System.out.print (" TAC ");
+		try{		
+			sleep(10);
+
+		}catch (InterruptedException e){}
+		}
+	}
+
+	
+}//fin hilo

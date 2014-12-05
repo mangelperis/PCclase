@@ -1,0 +1,60 @@
+package dos;
+
+public class Hilos2 implements Runnable{
+	
+	
+	private Thread hilo=null;
+	
+	
+	private int c1,c2;
+	private int valor,valor2;
+	Hilos2 (int c1,int c2){
+		this.c1=c1;
+		this.c2=c2;
+		
+	}
+	
+	public void start(){
+		if (hilo == null ){
+			valor = c1;
+			valor2 = c2;
+			
+			
+			hilo=new Thread(this);	//creo el hilo
+			hilo.start(); //lanzo hilo
+						
+		}
+		
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while (true){
+
+			/*System.out.println(".: Hilo :.");
+			System.out.println("Contador1:: "+valor);
+			System.out.println("Contador2:: "+valor2);
+			
+			System.out.println();
+			try {
+				Thread.sleep(1000);
+			}catch (InterruptedException e){}
+		*/
+			
+			valor += 1;
+			valor2 += 2;
+			
+		}
+		
+	}
+	public int getContador1 (){
+		return valor;
+	}
+	
+	public int getContador2 (){
+		return valor2;
+	}
+	
+	
+
+}

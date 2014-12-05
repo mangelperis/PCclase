@@ -1,0 +1,14 @@
+/* JArticulo
+ * 	0 - Salir
+ *  1 - Nuevo
+ *  2 - Editar
+ *  3 - Eliminar
+ *  4 - Visualizar
+ *  
+ * */
+
+package JArticuloSimple;
+
+public class JArticulo {
+
+}

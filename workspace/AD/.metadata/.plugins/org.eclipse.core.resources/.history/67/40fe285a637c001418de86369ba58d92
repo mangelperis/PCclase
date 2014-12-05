@@ -1,0 +1,87 @@
+/* JArticulo
+ * 	0 - Salir
+ *  1 - Nuevo
+ *  2 - Editar
+ *  3 - Eliminar
+ *  4 - Visualizar
+ *  
+ * */
+
+package JArticuloSimple;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+
+public class JArticulo {
+	
+	
+	
+	public static void Visualizar(){
+
+		PreparedStatement preparedStatement = connection.prepareStatement(
+				"select * from categoria where nombre like ?");
+		
+		
+		preparedStatement.setObject(1,"%vo%");
+		//preparedStatement.setObject(1,1);
+		ResultSet resultSet = preparedStatement.executeQuery();
+
+		while (resultSet.next()) 
+			System.out.printf("id=%4s nombre=%s\n", 
+				resultSet.getObject("id"), resultSet.getObject("nombre")); 
+		
+		
+		resultSet.close();
+		preparedStatement.close();
+		connection.close();
+		
+	}
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		final Connection connection = DriverManager.getConnection(
+				"jdbc:mysql://localhost/dbprueba?user=root&password=sistemas");
+	   	
+		
+		Scanner tcl = new Scanner(System.in);
+		int resp=-1;
+		
+		
+		while(resp != 0){
+			System.out.println("************* MENU *************\n");
+			System.out.println("****    0 - Salir          *****");
+			System.out.println("****    1 - Nuevo          *****");
+			System.out.println("****    2 - Editar         *****");
+			System.out.println("****    3 - Eliminar       *****");
+			System.out.println("****    4 - Visualizar     *****\n\n");
+			
+			System.out.print("Tu opcion :::  ");
+			resp = tcl.nextInt();
+			
+				switch (resp){
+				
+					case 0:
+						System.out.println("\n Saliendo ...");
+						break;
+					
+					case 1:
+						
+					case 2:
+						
+					case 3:
+						
+					case 4: 
+						Visualizar();
+					default: 
+						System.out.println("\n ERROR en la selección del menú");
+				
+				
+				}
+		
+		}
+	}
+}

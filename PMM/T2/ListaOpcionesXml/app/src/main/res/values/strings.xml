@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ListaOpcionesXml</string>
+    <string name="lista1_prompt">
+      Android Vendors (Choices from XML)
+     </string>
+    <string-array name="lista1_entries">
+        <item>Acer</item>
+        <item>Dell</item>
+        <item>HTC</item>
+        <item>Huawei</item>
+        <item>Kyocera</item>
+        <item>LG</item>
+        <item>Motorola</item>
+        <item>Nexus</item>
+        <item>Samsung</item>
+        <item>Sony Ericsson</item>
+        <item>T-Mobile</item>
+        <item>Neptune</item>
+    </string-array>
+     <string name="lista_message_template">
+             You selected \'%s\'.
+     </string>
+    <string name="action_settings">Settings</string>
+
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EjemLayout2</string>
+    <string name="app_nameLinear">Layout en Lineas</string>
+    <string name="app_nameTabla">Layout en Tabla</string>
+    <string name="app_nameRelativo">Layout  Relativo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

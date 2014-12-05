@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_centerInParent="true"
+    android:orientation="vertical" >
+
+        <Button
+        android:id="@+id/cmdLinear"
+        android:layout_marginTop="200dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Layout Lineal" />
+
+    <Button
+        android:id="@+id/cmdTabla"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Layout en Tabla" />
+
+    <Button
+        android:id="@+id/cmdRelativo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Layout Relativo" />
+
+    <Button
+        android:id="@+id/cmdGrid"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Layout en Grid" />
+
+</LinearLayout>
