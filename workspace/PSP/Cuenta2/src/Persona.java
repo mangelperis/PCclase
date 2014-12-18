@@ -1,0 +1,32 @@
+
+public class Persona extends Thread {
+	private Cuenta c;
+	String nom;
+	
+	public Persona (String n, Cuenta c){
+		nom = n;
+		this.c=c;
+	}
+	
+	private int random(){
+		return (int) (Math.random()*500+1);
+	}
+	
+	public void run(){
+		
+		try{
+			c.IngresarDinero(random(), nom);
+			sleep(100);
+			c.RetirarDinero(random(), nom);
+			sleep(100);
+			c.IngresarDinero(random(), nom);
+			sleep(100);
+			c.RetirarDinero(random(), nom);
+			sleep(100);
+			
+		}catch(Exception e){
+			
+		}
+	}
+
+}

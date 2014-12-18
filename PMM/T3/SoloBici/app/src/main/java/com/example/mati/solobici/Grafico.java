@@ -140,4 +140,8 @@ public class Grafico {
     public void setAlto(int alto) {
         this.alto = alto;
     }
+
+    public static int getMaxVelocidad() {
+        return MAX_VELOCIDAD;
+    }
 }

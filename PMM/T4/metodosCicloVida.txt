@@ -1,0 +1,85 @@
+1.-Metodos para agregar en la clase Solobici
+Pulsa el botón Jugar y luego regresa a la actividad. Observa la secuencia de Toast.
+Pulsa el botón Acerca de y luego regresa a la actividad. Observa la secuencia de Toast.
+Sal de la actividad y observa la secuencia de Toast 
+@Override
+    protected void onStart() {
+        super.onStart();
+       Toast.makeText(this,"onStart", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+     protected void onResume() {
+        super.onResume();
+        Toast.makeText(this,"onResume", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    protected void onPause() {
+        Toast.makeText(this,"onPause", Toast.LENGTH_SHORT).show();
+        super.onPause();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText(this,"onStop", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(this,"onRestart", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    protected void onDestroy() {
+        Toast.makeText(this,"onDestroy", Toast.LENGTH_SHORT).show();
+        super.onDestroy();
+    }
+2.-Prueba esta secuencia de acciones
+
+Pulsa el botón Jugar y luego regresa a la actividad. Observa la secuencia de Toast.
+Pulsa el botón Acerca de y luego regresa a la actividad. Observa la secuencia de Toast.
+Sal de la actividad y observa la secuencia de Toast 
+
+3.- Para optimizar el control del juego
+ 
+3.1 Haz los siguientes cambioes en HiloJuego ( clase interna de VistaJuego)
+
+	@Override
+	protected void onDestroy(){
+		//Al poner la variable corriendo a false permitimos que el thread pueda acabar
+		vistaJuego.setCorriendo(false);
+		super.onDestroy();
+	}
+	
+	@Override
+	protected void onPause(){
+		super.onPause();
+		//Ponemos el thread en suspensión
+		vistaJuego.setPausa(true);
+		//Ponemos la música en pausa cuando la actividad no está activa
+		miMediaPlayer.pause();
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		//Continuamos ejecutando el thread
+		vistaJuego.setPausa(false);
+		//Ponemos la musica en funcionamiento justo antes de activar la Actividad
+		miMediaPlayer.start();
+	}
+3.2 Declara en la clase Juego la variable private VistaJuego vistaJuego;
+y añade al final del método onCreate añade:
+vistaJuego = (VistaJuego) findViewById(R.id.VistaJuego);
+3.3 Incorpora los siguientes métodos a la actividad Juego
+@Override protected void onDestroy() {
+   vistaJuego.getHilo().detener();
+   super.onDestroy();
+
+@Override protected void onPause() {
+   super.onPause();
+   vistaJuego.getHilo().pausar();
+}
+ @Override protected void onResume() {
+   super.onResume();
+   vistaJuego.getHilo().reanudar();
+}
+
