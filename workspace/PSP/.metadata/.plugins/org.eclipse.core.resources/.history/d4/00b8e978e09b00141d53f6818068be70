@@ -1,0 +1,62 @@
+
+import java.io.*;
+import java.net.*;
+
+class Cliente {
+	//nombre  máquina y puerto
+	static final String HOST = "localhost";
+	static final int PUERTO=5000;
+	
+	
+	public Cliente( ) {
+		System.out.println("Conectando al servidor...");
+
+		try{
+			
+			//se crea el socket
+			
+			
+			Socket skCliente = new Socket(HOST, PUERTO);
+			System.out.println("Conectado.");
+			
+			
+			OutputStream auxo = skCliente.getOutputStream();
+			//asocio flujo de datos flujo de tipo DataOutputStream 
+			DataOutputStream flujou= new DataOutputStream( auxo );
+			
+			//recojo flujo de datos del socket
+			InputStream aux = skCliente.getInputStream();
+
+			//asocio flujo de datos flujo de tipo DataInputStream
+			DataInputStream flujo = new DataInputStream( aux );
+			
+			
+			//escribo			
+			flujou.writeUTF( "Cliente dice :> Hola  " );
+			Thread.sleep(1000);
+			flujou.writeUTF("Cliente dice :> ¿Como estas?");
+			Thread.sleep(1000);
+			flujou.writeUTF("Cliente dice :> Adios");
+			
+			
+			
+			//Capturamos cadena del flujo con readUTF y muestro
+			System.out.println( flujo.readUTF() );
+			System.out.println( flujo.readUTF() );
+			
+			if(flujo.readUTF() == null){
+				System.out.println( "Cerrando conexion...");
+				
+				//Cierro el socket
+				skCliente.close();
+				
+			}
+			
+		}catch(Exception e) {
+		System.out.println( e.getMessage() );
+	}
+	}
+public static void main(String[] arg) {
+new Cliente();
+}
+}

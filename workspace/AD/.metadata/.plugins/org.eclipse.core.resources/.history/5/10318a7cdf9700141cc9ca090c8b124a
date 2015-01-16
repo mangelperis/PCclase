@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+repositories {
+	mavenCentral{}
+	
+}
+
+dependencies {
+	'mysql:mysql-connector-java:5.1.28'
+}

@@ -1,0 +1,75 @@
+
+import java.io.* ;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Servidor {
+	
+	
+	//puerto espera conexiones
+	static final int PUERTO=5000;
+
+		public Servidor( ) {
+			System.out.println("Esperando conexion... Puerto : " + PUERTO );
+			try {
+				//crea socket y espera
+				ServerSocket skServidor = new ServerSocket( PUERTO );
+		
+					//Primitiva accept() crea nuevo socket skCliente
+					//skCliente atiene al cliente
+					Socket skCliente = skServidor.accept(); // Crea objeto
+ 
+					System.out.println("Conectado.");
+					
+					
+					//asocio flujo salida de datos al socket
+					OutputStream aux = skCliente.getOutputStream();
+					//asocio flujo de datos flujo de tipo DataOutputStream 
+					DataOutputStream flujo= new DataOutputStream( aux );
+					
+					//recojo flujo de datos del socket
+					InputStream auxi = skCliente.getInputStream();
+					//asocio flujo de datos flujo de tipo DataInputStream
+					DataInputStream flujoi = new DataInputStream( auxi );	
+					
+					
+					//escribo
+						System.out.println("Hola soy el servidor");
+					flujo.writeUTF( "Servidor dice :> Hola soy el servidor " );
+					System.out.println( flujoi.readUTF() );
+					Thread.sleep(1000);
+										
+						System.out.println( flujoi.readUTF() );	
+					System.out.println("Muy bien");
+					flujo.writeUTF("Servidor dice :> Muy bien");
+					Thread.sleep(1000);
+								
+					
+					if(flujoi.readUTF() == "Adios"){
+						System.out.println(flujoi.readUTF() );
+						flujo.writeUTF("Servidor dice :> Hasta luego...");
+					System.out.println("Cerrando la conexion...");
+					
+					Thread.sleep(1000);
+					//cierro conexión
+					skCliente.close();
+					
+					}
+			
+				//System.out.println("Demasiados clientes por hoy");
+
+			} catch( Exception e ) {
+
+		System.out.println( e.getMessage() );
+
+		}
+
+	}
+
+	public static void main( String[] arg ) {
+
+	new Servidor();
+
+	}
+
+}
