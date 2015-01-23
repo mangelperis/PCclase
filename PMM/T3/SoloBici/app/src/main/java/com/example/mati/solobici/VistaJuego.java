@@ -148,6 +148,8 @@ public class VistaJuego extends View {
         bici.setIncX(0);
         bici.setIncY(0);
 
+
+
         //Movemos los coches
         for (Grafico coche : Coches) {
             coche.incrementaPos();

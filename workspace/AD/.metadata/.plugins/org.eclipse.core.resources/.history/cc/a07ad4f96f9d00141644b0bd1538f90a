@@ -1,0 +1,16 @@
+package serpis.ad;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table( name = "categoria" )
+
+public class Categoria {
+	
+	 private Long id;
+	 private String nombre;
+	 
+	 
+
+}
